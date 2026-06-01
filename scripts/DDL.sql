@@ -36,25 +36,27 @@ CREATE TABLE dim_brands (
 
 CREATE TABLE dim_pets (
     pet_id SERIAL PRIMARY KEY,
-    pet_type TEXT, pet_name TEXT, pet_breed TEXT, pet_category TEXT
+    pet_type TEXT, pet_name TEXT, pet_breed TEXT, pet_category TEXT,
+    UNIQUE(pet_type, pet_name, pet_breed)
 );
 
 CREATE TABLE dim_customers (
     customer_id SERIAL PRIMARY KEY,
-    first_name TEXT, last_name TEXT, age INT, email TEXT,
+    first_name TEXT, last_name TEXT, age INT, email TEXT UNIQUE,
     pet_id INT REFERENCES dim_pets(pet_id),
     location_id INT REFERENCES dim_locations(location_id)
 );
 
 CREATE TABLE dim_sellers (
     seller_id SERIAL PRIMARY KEY,
-    first_name TEXT, last_name TEXT, email TEXT,
+    first_name TEXT, last_name TEXT, email TEXT UNIQUE,
     location_id INT REFERENCES dim_locations(location_id)
 );
 
 CREATE TABLE dim_products (
     product_id SERIAL PRIMARY KEY,
-    product_name TEXT, product_price NUMERIC,
+    product_name TEXT UNIQUE,
+    product_price NUMERIC,
     product_color TEXT, product_size TEXT, product_material TEXT, 
     product_weight TEXT, product_description TEXT, product_rating NUMERIC, 
     product_reviews INT, product_release_date DATE, product_expiry_date DATE,
@@ -64,13 +66,14 @@ CREATE TABLE dim_products (
 
 CREATE TABLE dim_stores (
     store_id SERIAL PRIMARY KEY,
-    store_name TEXT, store_phone TEXT, store_email TEXT,
+    store_name TEXT UNIQUE,
+    store_phone TEXT, store_email TEXT,
     location_id INT REFERENCES dim_locations(location_id)
 );
 
 CREATE TABLE dim_suppliers (
     supplier_id SERIAL PRIMARY KEY,
-    supplier_name TEXT, supplier_contact TEXT, supplier_email TEXT,
+    supplier_name TEXT, supplier_contact TEXT, supplier_email TEXT UNIQUE,
     supplier_phone TEXT, supplier_address TEXT,
     location_id INT REFERENCES dim_locations(location_id)
 );
